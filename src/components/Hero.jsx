@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import dogImage from "../assets/dog.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -11,64 +12,40 @@ function Hero() {
   const sectionRef = useRef(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
+  const ctx = gsap.context(() => {
 
-      // HEADLINE INTRO
-      gsap.fromTo(
-        headlineRef.current.children,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          stagger: 0.04,
-          duration: 1,
-          ease: "power3.out",
-        }
-      );
+    // existing animations...
 
-      // STATS INTRO
-      gsap.fromTo(
-        statsRef.current,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          stagger: 0.2,
-          delay: 0.6,
-          duration: 0.8,
-          ease: "power3.out",
-        }
-      );
+    gsap.to(imageRef.current, {
+      x: window.innerWidth * 0.4,
+      rotation: 4,
+      scale: 1.08,
+      transformOrigin: "center center",
+      ease: "power1.out",
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top top",
+        end: "+=1800",
+        scrub: 2,
+        pin: true,
+        anticipatePin: 1,
+      }
+    });
 
-      // SMOOTH SCROLL ANIMATION
-      gsap.to(imageRef.current, {
-  x: window.innerWidth * 0.4,
-  rotation: 4,
-  scale: 1.08,
-  transformOrigin: "center center",
-  ease: "power1.out",   // smoother motion curve
-  scrollTrigger: {
-    trigger: sectionRef.current,
-    start: "top top",
-    end: "+=1800",
-    scrub: 2,           // 🔥 smooth interpolation
-    pin: true,
-    anticipatePin: 1,
-  }
-});
+    ScrollTrigger.refresh();   // 🔥 ADD THIS
 
-    }, sectionRef);
+  }, sectionRef);
 
-    return () => ctx.revert();
-  }, []);
+  return () => ctx.revert();
+}, []);
 
   const headline = "WELCOME ITZFIZZ".split("");
 
   return (
     <section
-      ref={sectionRef}
-      className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden bg-black px-6"
-    >
+  ref={sectionRef}
+  className="min-h-[200vh] flex flex-col justify-center items-center relative overflow-hidden bg-black px-6"
+>
 
       {/* HEADLINE */}
       <h1
@@ -106,11 +83,11 @@ function Hero() {
 
       {/* IMAGE */}
       <img
-        ref={imageRef}
-        src="/ram.png"
-        alt="Visual"
-        className="mt-16 w-[350px] md:w-[450px] will-change-transform"
-      />
+  ref={imageRef}
+  src={dogImage}
+  alt="Visual"
+  className="w-[600px] max-w-full"
+/>
 
     </section>
   );
