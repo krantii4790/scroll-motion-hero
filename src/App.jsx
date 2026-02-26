@@ -1,12 +1,10 @@
 import Hero from "./components/Hero";
+import "./App.css";
 
-function App() {
+export default function App() {
   return (
-    <>
+    <main>
       <Hero />
-      <div className="h-[150vh] bg-black"></div>
-    </>
+    </main>
   );
 }
-
-export default App;
